@@ -2,9 +2,6 @@ package com.accenture.testingApplication.core.logic;
 
 import com.accenture.testingApplication.core.Constant.DialogueConstant;
 import com.accenture.testingApplication.core.connection.ConnectionDataBase;
-import com.accenture.testingApplication.core.entity.Answer;
-import com.accenture.testingApplication.core.entity.Question;
-import com.accenture.testingApplication.core.entity.Test;
 import com.accenture.testingApplication.core.entity.User;
 
 import java.sql.ResultSet;

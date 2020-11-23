@@ -1,4 +1,4 @@
-package com.accenture.testingApplication.core.starter;
+package com.accenture.testingApplication.core;
 
 import com.accenture.testingApplication.core.logic.InputController;
 import org.springframework.boot.SpringApplication;

@@ -16,7 +16,6 @@ public class DialogueConstant {
     public static final String DELETE_QUESTION_USER = "/deleteQuestion";
     public static final String MISTAKE_MESSAGE_BOT = "я не знаю такой команды :(";
     public static final String MISTAKE_START_MESSAGE_BOT = "для начала работы введите\n" + START_USER;
-    public static final String MISTAKE_TYPE_MESSAGE_BOT = "я не умею с этим работать :(";
     public static final String ABSENCE_USER_MESSAGE_BOT = "пользователь не найден";
     public static final String REGISTER_LOGIN_MESSAGE_BOT = "введите логин";
     public static final String REGISTER_NAME_MESSAGE_BOT = "введите имя";
@@ -27,8 +26,7 @@ public class DialogueConstant {
     public static final String QUESTION_CREATE_TYPE_MESSAGE_BOT = "введите тип вопроса";
     public static final String QUESTION_CREATE_DIFFICULTY_MESSAGE_BOT = "введите сложность вопроса";
     public static final String QUESTION_CREATE_TEXT_MESSAGE_BOT = "введите текст вопроса";
-    public static final String QUESTION_CREATE_ANSWER_MESSAGE_BOT = "введите текст ответа(ов) на вопрос";
-    public static final String QUESTION_CREATE_OPEN_ANSWER_MESSAGE_BOT = "введите текст ответа на открытый вопрос";
+    public static final String QUESTION_CREATE_ANSWER_MESSAGE_BOT = "введите текст ответа на вопрос";
     public static final String QUESTION_CREATE_FINISH_MESSAGE_BOT = "вопрос успешно создан";
     public static final String QUESTION_OPEN_MESSAGE_BOT = "введите id открываемого вопроса";
     public static final String QUESTION_DELETE_СOMPLETED_MESSAGE_BOT = "вопрос успешно удалён";

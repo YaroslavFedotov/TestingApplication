@@ -9,7 +9,6 @@ import java.sql.SQLException;
 public class AdminController {
     private static Test test = new Test();
     private static Question question = new Question();
-    private static Answer answer = new Answer();
     private static int progressСounter = 0;
 
     public static String createQuestion(String adminMessage) {
@@ -33,21 +32,15 @@ public class AdminController {
             progressСounter++;
             question.setQuestionText(adminMessage);
             return DialogueConstant.QUESTION_CREATE_ANSWER_MESSAGE_BOT;
-        } else if (progressСounter == 5) {
-            progressСounter++;
-            answer.setSingle(adminMessage);
-            answer.setMultiple(adminMessage);
-            return DialogueConstant.QUESTION_CREATE_OPEN_ANSWER_MESSAGE_BOT;
         } else {
-            answer.setOpen(adminMessage);
+            question.setAnswerText(adminMessage);
             ConnectionDataBase connectionDataBase = new ConnectionDataBase();
             try {
-                connectionDataBase.addQuestion(question, answer);
+                connectionDataBase.addQuestion(question);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
             question = new Question();
-            answer = new Answer();
             progressСounter = 0;
             InputController.modesOff();
             return DialogueConstant.QUESTION_CREATE_FINISH_MESSAGE_BOT;

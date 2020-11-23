@@ -5,6 +5,8 @@ public class Question {
     private String authorLogin;
     private Difficulty difficulty;
     private String questionText;
+    private String answerText;
+
     public Question() {};
     public Type getType() { return type; }
     public void setType(Type type) { this.type = type; }
@@ -20,4 +22,8 @@ public class Question {
         return questionText;
     }
     public void setQuestionText(String questionText) { this.questionText = questionText; }
+    public String getAnswerText() {
+        return answerText;
+    }
+    public void setAnswerText(String answerText) { this.answerText = answerText; }
 }

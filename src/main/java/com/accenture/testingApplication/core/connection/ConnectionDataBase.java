@@ -123,21 +123,7 @@ public class ConnectionDataBase {
         }
     }
 
-    public void addQuestion(Question question, Answer answer) throws SQLException {
-        String answerText;
-        switch (question.getType()) {
-            case single:
-                answerText = answer.getSingle();
-                break;
-            case multiple:
-                answerText = answer.getMultiple();
-                break;
-            case open:
-                answerText = answer.getOpen();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + question.getType());
-        }
+    public void addQuestion(Question question) throws SQLException {
         ResultSet rs = getDbConnection().createStatement().executeQuery(
                 "SELECT COUNT(*) AS Qty FROM " + StructureDataBaseConstant.QUESTIONS_TABLE);
         rs.next();
@@ -154,7 +140,7 @@ public class ConnectionDataBase {
             prSt.setString(3, question.getType().toString());
             prSt.setString(4, question.getAuthorLogin());
             prSt.setString(5, question.getQuestionText());
-            prSt.setString(6, answerText);
+            prSt.setString(6, question.getAnswerText());
             prSt.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
