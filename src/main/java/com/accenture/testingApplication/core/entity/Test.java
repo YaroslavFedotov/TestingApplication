@@ -3,7 +3,6 @@ package com.accenture.testingApplication.core.entity;
 import com.accenture.testingApplication.core.connection.ConnectionDataBase;
 import com.accenture.testingApplication.core.сonstant.StructureDataBaseConstant;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,9 +12,6 @@ public class Test {
     private String name;
     private String questions_list;
 
-    public Test(String name) {
-        this.name = name;
-    }
     public Test() {}
 
     public String getName() {

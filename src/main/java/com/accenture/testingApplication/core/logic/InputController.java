@@ -2,7 +2,7 @@ package com.accenture.testingApplication.core.logic;
 
 import com.accenture.testingApplication.core.сonstant.DialogueConstant;
 import com.accenture.testingApplication.core.entity.User;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,12 +22,10 @@ public class InputController {
     private static boolean userFlow;
     private static boolean administrationFlow;
     private static int flowStep = 0;
+    private static User user = new User();
 
-
-    public String processingUserInput(String userInput) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        AdminController adminController = context.getBean("adminController", AdminController.class);
-        UserController userController = context.getBean("userController", UserController.class);
+    public String processingUserInput(String userInput, AdminController adminController,
+                                      UserController userController) {
         if (registrationFlow) {
             return registerNewUserProcess(userInput);
         } else if (authorizationFlow) {
@@ -81,27 +79,21 @@ public class InputController {
     }
 
     private String registerNewUserProcess(String currentMessage) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        User user = context.getBean("user", User.class);
         switch (flowStep) {
             case 0:
                 flowStep++;
-                context.close();
                 return (DialogueConstant.REGISTER_LOGIN_MESSAGE_BOT);
             case 1:
                 user.setLogin(currentMessage);
                 flowStep++;
-                context.close();
                 return (DialogueConstant.REGISTER_NAME_MESSAGE_BOT);
             case 2:
                 user.setName(currentMessage);
                 flowStep++;
-                context.close();
                 return (DialogueConstant.REGISTER_PASSWORD_MESSAGE_BOT);
             case 3:
                 user.setPassword(currentMessage);
                 flowStep++;
-                context.close();
                 return (DialogueConstant.REGISTER_STATUS_MESSAGE_BOT);
             default:
                 if (currentMessage.equals(DialogueConstant.ADMIN_PASSWORD)) {
@@ -109,7 +101,6 @@ public class InputController {
                 } else if (currentMessage.equals(DialogueConstant.NO_ADMIN_MESSAGE)) {
                     user.setAdmin_status(false);
                 } else {
-                    context.close();
                     return (DialogueConstant.MISTAKE_MESSAGE_BOT);
                 }
                 try {
@@ -118,24 +109,19 @@ public class InputController {
                     throwables.printStackTrace();
                 }
                 flowStopper();
-                context.close();
                 return (DialogueConstant.REGISTER_COMPLETED_MESSAGE_BOT +
                         "\n\n" + DialogueConstant.START_MESSAGE_BOT);
         }
     }
 
     private String authorizationUserProcess(String currentMessage) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        User user = context.getBean("user", User.class);
         switch (flowStep) {
             case 0:
                 flowStep++;
-                context.close();
                 return (DialogueConstant.REGISTER_LOGIN_MESSAGE_BOT);
             case 1:
                 user.setLogin(currentMessage);
                 flowStep++;
-                context.close();
                 return (DialogueConstant.REGISTER_PASSWORD_MESSAGE_BOT);
             default:
                 user.setPassword(currentMessage);
@@ -163,25 +149,22 @@ public class InputController {
                     if (adminOccurrence) {
                         flowStopper();
                         administrationFlow = true;
-                        context.close();
                         return DialogueConstant.AUTHORIZATION_ADMIN_MESSAGE_BOT;
                     } else {
                         flowStopper();
                         modesOff();
-                        context.close();
                         return DialogueConstant.ABSENCE_USER_MESSAGE_BOT;
                     }
                 }
                 flowStopper();
                 userFlow = true;
-                context.close();
                 return DialogueConstant.AUTHORIZATION_USER_MESSAGE_BOT;
         }
     }
 
-    private static void administrationProcess (String currentMessage) {
+    private void administrationProcess (String currentMessage) {
         if (currentMessage.equals(DialogueConstant.CREATE_TEST_USER)) {
-            createTestModOn = true;
+
         } else if (currentMessage.equals(DialogueConstant.OPEN_TEST_USER)) {
             openTestModOn  = true;
         } else if (currentMessage.equals(DialogueConstant.DELETE_TEST_USER)) {
@@ -197,7 +180,7 @@ public class InputController {
         }
     }
 
-    private static String userProcess (String currentMessage) {
+    private String userProcess (String currentMessage) {
         switch (currentMessage) {
             case DialogueConstant.TAKE_TEST_USER:
                 testingModOn = true;
@@ -210,13 +193,13 @@ public class InputController {
         }
     }
 
-    private static void logout() {
+    private void logout() {
         authorizationFlow = false;
         administrationFlow = false;
         userFlow = false;
     }
 
-    private static void flowStopper () {
+    private void flowStopper () {
         administrationFlow = false;
         authorizationFlow = false;
         registrationFlow = false;
@@ -224,7 +207,7 @@ public class InputController {
         flowStep = 0;
     }
 
-    public static void TestingFlowStopper () {
+    public static void TestingFlowStopper() {
         testingModOn = false;
     }
 

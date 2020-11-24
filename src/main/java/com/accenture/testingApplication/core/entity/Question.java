@@ -1,6 +1,8 @@
 package com.accenture.testingApplication.core.entity;
 
 import com.accenture.testingApplication.core.connection.ConnectionDataBase;
+import com.accenture.testingApplication.core.entity.characteristic.Difficulty;
+import com.accenture.testingApplication.core.entity.characteristic.Type;
 import com.accenture.testingApplication.core.сonstant.DialogueConstant;
 import com.accenture.testingApplication.core.сonstant.StructureDataBaseConstant;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

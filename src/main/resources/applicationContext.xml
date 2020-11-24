@@ -6,19 +6,6 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
-
-    <bean id="user"
-          class="com.accenture.testingApplication.core.entity.User">
-    </bean>
-
-    <bean id="question"
-          class="com.accenture.testingApplication.core.entity.Question">
-    </bean>
-
-    <bean id="test"
-          class="com.accenture.testingApplication.core.entity.Test">
-    </bean>
-
     <bean id="connectionDataBase"
           class="com.accenture.testingApplication.core.connection.ConnectionDataBase">
     </bean>
