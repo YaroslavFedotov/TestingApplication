@@ -1,4 +1,4 @@
-package com.accenture.testingApplication.core.Constant;
+package com.accenture.testingApplication.core.сonstant;
 
 public class ConfigDataBaseConstant {
     public static final String User = "Root";

@@ -1,33 +1,35 @@
 package com.accenture.testingApplication.core.logic;
 
-import com.accenture.testingApplication.core.Constant.DialogueConstant;
-import com.accenture.testingApplication.core.connection.ConnectionDataBase;
+import com.accenture.testingApplication.core.entity.Question;
+import com.accenture.testingApplication.core.сonstant.DialogueConstant;
 import com.accenture.testingApplication.core.entity.Test;
 
 import java.util.ArrayList;
 
 public class UserController {
+
     private static int questionNumberInTheTest;
     private static int numberOfCorrectAnswers;
     private static ArrayList questionAnswerParts = new ArrayList();
     private static String questionMessage;
     private static ArrayList testQuestionId = new ArrayList();
     private static int testQuestionIdSize;
+    private static Question question = new Question();
+    private static Test test = new Test();
 
-    public static String testPerformer(String userMessage) {
+    public String testPerformer(String userMessage) {
         String answer;
-        ConnectionDataBase connectionDB = new ConnectionDataBase();
         if (questionNumberInTheTest == 0) {
-            Test test = new Test(userMessage);
-            for (String question : connectionDB.getTest(test).replace(DialogueConstant.REGULAR_EXPRESSION_QUESTION, "").split(",")) {
-                testQuestionId.add(question);
+            for (String Currentquestion : test.getTest(test).replace(DialogueConstant.REGULAR_EXPRESSION_QUESTION,
+                    "").split(",")) {
+                testQuestionId.add(Currentquestion);
                 testQuestionIdSize++;
 
             }
         }
         String[] arrSplit;
         if (questionNumberInTheTest == 0) {
-            questionMessage = connectionDB.getQuestion(testQuestionId.get(questionNumberInTheTest).toString());
+            questionMessage = question.getQuestion(testQuestionId.get(questionNumberInTheTest).toString());
             questionNumberInTheTest++;
             arrSplit = questionMessage.split(DialogueConstant.REGULAR_EXPRESSION_ANSWER);
             return arrSplit[0];
@@ -47,7 +49,7 @@ public class UserController {
                         DialogueConstant.NUMBER_CORRECT_ANSWERS +
                         AnVar;
             } else {
-                questionMessage = connectionDB.getQuestion(testQuestionId.get(questionNumberInTheTest).toString());
+                questionMessage = question.getQuestion(testQuestionId.get(questionNumberInTheTest).toString());
                 arrSplit = questionMessage.split(DialogueConstant.REGULAR_EXPRESSION_ANSWER);
                 questionNumberInTheTest++;
                 return arrSplit[0];
@@ -55,7 +57,7 @@ public class UserController {
         }
     }
 
-    public static void checkAnswer(String userAnswer, String answer) {
+    public void checkAnswer(String userAnswer, String answer) {
         if (userAnswer.equals(answer)) {
             numberOfCorrectAnswers++;
         }

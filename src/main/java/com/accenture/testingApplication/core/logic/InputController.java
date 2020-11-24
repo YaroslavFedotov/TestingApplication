@@ -1,13 +1,14 @@
 package com.accenture.testingApplication.core.logic;
 
-import com.accenture.testingApplication.core.Constant.DialogueConstant;
-import com.accenture.testingApplication.core.connection.ConnectionDataBase;
+import com.accenture.testingApplication.core.сonstant.DialogueConstant;
 import com.accenture.testingApplication.core.entity.User;
+
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class InputController {
+
     private static boolean startModOn;
     private static boolean createQuestionModOn;
     private static boolean openQuestionModOn;
@@ -23,31 +24,31 @@ public class InputController {
     private static int flowStep = 0;
     private static User user = new User();
 
-
-    public static String processingUserInput(String userInput) {
+    public String processingUserInput(String userInput, AdminController adminController,
+                                      UserController userController) {
         if (registrationFlow) {
             return registerNewUserProcess(userInput);
         } else if (authorizationFlow) {
             return authorizationUserProcess(userInput);
         } else if (userFlow) {
             if (testingModOn) {
-                return UserController.testPerformer(userInput);
+                return userController.testPerformer(userInput);
             } else {
                 return userProcess(userInput); }
         } else if (administrationFlow) {
             administrationProcess(userInput);
             if (createQuestionModOn) {
-                return (AdminController.createQuestion(userInput));
+                return (adminController.createQuestion(userInput));
             } else if (openQuestionModOn) {
-                return (AdminController.openQuestion(userInput));
+                return (adminController.openQuestion(userInput));
             } else if (deleteQuestionModOn) {
-                return AdminController.deleteQuestion(userInput);
+                return adminController.deleteQuestion(userInput);
             } else if (createTestModOn) {
-                return AdminController.createTest(userInput);
+                return adminController.createTest(userInput);
             } else if (openTestModOn) {
-                return AdminController.openTest(userInput);
+                return adminController.openTest(userInput);
             } else if (deleteTestModOn) {
-                return AdminController.deleteTest(userInput);
+                return adminController.deleteTest(userInput);
             } else if (!administrationFlow) {
                 return DialogueConstant.START_MESSAGE_BOT;
             }
@@ -77,7 +78,7 @@ public class InputController {
         return DialogueConstant.START_MESSAGE_BOT;
     }
 
-    private static String registerNewUserProcess(String currentMessage) {
+    private String registerNewUserProcess(String currentMessage) {
         switch (flowStep) {
             case 0:
                 flowStep++;
@@ -102,20 +103,18 @@ public class InputController {
                 } else {
                     return (DialogueConstant.MISTAKE_MESSAGE_BOT);
                 }
-                ConnectionDataBase connectionDataBase = new ConnectionDataBase();
                 try {
-                    connectionDataBase.registerUser(user);
+                    user.registerUser(user);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-                user = new User();
                 flowStopper();
                 return (DialogueConstant.REGISTER_COMPLETED_MESSAGE_BOT +
                         "\n\n" + DialogueConstant.START_MESSAGE_BOT);
         }
     }
 
-    private static String authorizationUserProcess(String currentMessage) {
+    private String authorizationUserProcess(String currentMessage) {
         switch (flowStep) {
             case 0:
                 flowStep++;
@@ -127,8 +126,7 @@ public class InputController {
             default:
                 user.setPassword(currentMessage);
                 user.setAdmin_status(false);
-                ConnectionDataBase connectionDB = new ConnectionDataBase();
-                ResultSet rs = connectionDB.getUser(user);
+                ResultSet rs = user.getUser(user);
                 boolean occurrence = false;
                 try {
                     while (rs.next()) {
@@ -139,7 +137,7 @@ public class InputController {
                 }
                 if (!occurrence) {
                     user.setAdmin_status(true);
-                    rs = connectionDB.getUser(user);
+                    rs = user.getUser(user);
                     boolean adminOccurrence = false;
                     try {
                         while (rs.next()) {
@@ -164,9 +162,9 @@ public class InputController {
         }
     }
 
-    private static void administrationProcess (String currentMessage) {
+    private void administrationProcess (String currentMessage) {
         if (currentMessage.equals(DialogueConstant.CREATE_TEST_USER)) {
-            createTestModOn = true;
+
         } else if (currentMessage.equals(DialogueConstant.OPEN_TEST_USER)) {
             openTestModOn  = true;
         } else if (currentMessage.equals(DialogueConstant.DELETE_TEST_USER)) {
@@ -182,7 +180,7 @@ public class InputController {
         }
     }
 
-    private static String userProcess (String currentMessage) {
+    private String userProcess (String currentMessage) {
         switch (currentMessage) {
             case DialogueConstant.TAKE_TEST_USER:
                 testingModOn = true;
@@ -195,13 +193,13 @@ public class InputController {
         }
     }
 
-    private static void logout() {
+    private void logout() {
         authorizationFlow = false;
         administrationFlow = false;
         userFlow = false;
     }
 
-    private static void flowStopper () {
+    private void flowStopper () {
         administrationFlow = false;
         authorizationFlow = false;
         registrationFlow = false;
@@ -209,7 +207,7 @@ public class InputController {
         flowStep = 0;
     }
 
-    public static void TestingFlowStopper () {
+    public static void TestingFlowStopper() {
         testingModOn = false;
     }
 
