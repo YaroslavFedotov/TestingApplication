@@ -1,17 +1,21 @@
 package com.accenture.testingApplication.core.logic;
 
-import com.accenture.testingApplication.core.Constant.DialogueConstant;
-import com.accenture.testingApplication.core.connection.ConnectionDataBase;
+import com.accenture.testingApplication.core.сonstant.DialogueConstant;
 import com.accenture.testingApplication.core.entity.*;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.sql.SQLException;
 
 public class AdminController {
-    private static Test test = new Test();
-    private static Question question = new Question();
+
+
+
+
     private static int progressСounter = 0;
 
-    public static String createQuestion(String adminMessage) {
+    public String createQuestion(String adminMessage) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Question question = context.getBean("question", Question.class);
 
         if (progressСounter == 0) {
             progressСounter++;
@@ -34,89 +38,105 @@ public class AdminController {
             return DialogueConstant.QUESTION_CREATE_ANSWER_MESSAGE_BOT;
         } else {
             question.setAnswerText(adminMessage);
-            ConnectionDataBase connectionDataBase = new ConnectionDataBase();
             try {
-                connectionDataBase.addQuestion(question);
+                question.addQuestion(question);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            question = new Question();
             progressСounter = 0;
             InputController.modesOff();
+            context.close();
             return DialogueConstant.QUESTION_CREATE_FINISH_MESSAGE_BOT;
         }
     }
-    public static String openQuestion(String adminMessage) {
+    public String openQuestion(String adminMessage) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Question question = context.getBean("question", Question.class);
         if (progressСounter == 0) {
             progressСounter++;
+            context.close();
             return DialogueConstant.QUESTION_OPEN_MESSAGE_BOT;
         } else {
-            ConnectionDataBase connectionDB = new ConnectionDataBase();
             progressСounter = 0;
             InputController.modesOff();
-            return connectionDB.getQuestion(adminMessage);
+            context.close();
+            return question.getQuestion(adminMessage);
         }
     }
 
-    public static String deleteQuestion(String adminMessage) {
+    public String deleteQuestion(String adminMessage) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Question question = context.getBean("question", Question.class);
+
         if (progressСounter == 0) {
             progressСounter++;
+            context.close();
             return DialogueConstant.QUESTION_DELETE_MESSAGE_BOT;
         } else {
-            ConnectionDataBase connectionDataBase = new ConnectionDataBase();
-            connectionDataBase.eraseQuestion(adminMessage);
+            question.eraseQuestion(adminMessage);
             progressСounter = 0;
             InputController.modesOff();
+            context.close();
             return DialogueConstant.QUESTION_DELETE_СOMPLETED_MESSAGE_BOT;
         }
     }
 
-    public static String createTest(String adminMessage) {
+    public String createTest(String adminMessage) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Test test = context.getBean("test", Test.class);
         if (progressСounter == 0) {
             progressСounter++;
+            context.close();
             return DialogueConstant.TEST_CREATE_NAME_MESSAGE_BOT;
         } else if (progressСounter == 1) {
             progressСounter++;
             test.setName(adminMessage);
+            context.close();
             return DialogueConstant.TEST_CREATE_TEXT_MESSAGE_BOT;
         } else {
             progressСounter++;
             test.setQuestions_list(adminMessage);
             try {
-                ConnectionDataBase connectionDataBase = new ConnectionDataBase();
-                connectionDataBase.addTest(test);
+                test.addTest(test);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
             progressСounter = 0;
             InputController.modesOff();
+            context.close();
             return DialogueConstant.TEST_CREATE_FINISH_MESSAGE_BOT;
         }
     }
 
-    public static String openTest(String adminMessage) {
+    public String openTest(String adminMessage) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Test test = context.getBean("test", Test.class);
         if (progressСounter == 0) {
             progressСounter++;
+            context.close();
             return DialogueConstant.TEST_OPEN_NAME_MESSAGE_BOT;
         } else {
-            ConnectionDataBase connectionDataBase = new ConnectionDataBase();
             progressСounter = 0;
             InputController.modesOff();
             test.setName(adminMessage);
-            return DialogueConstant.REGULAR_EXPRESSION_QUESTION + connectionDataBase.getTest(test);
+            context.close();
+            return DialogueConstant.REGULAR_EXPRESSION_QUESTION + test.getTest(test);
         }
     }
 
-    public static String deleteTest(String adminMessage) {
+    public String deleteTest(String adminMessage) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Test test = context.getBean("test", Test.class);
         if (progressСounter == 0) {
             progressСounter++;
+            context.close();
             return DialogueConstant.TEST_DELETE_MESSAGE_BOT;
         } else {
-            ConnectionDataBase connectionDataBase = new ConnectionDataBase();
             progressСounter = 0;
             InputController.modesOff();
             test.setName(adminMessage);
-            connectionDataBase.eraseTest(test);
+            test.eraseTest(test);
+            context.close();
             return DialogueConstant.TEST_DELETE_СOMPLETED_MESSAGE_BOT;
         }
     }

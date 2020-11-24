@@ -1,4 +1,4 @@
-package com.accenture.testingApplication.core.Constant;
+package com.accenture.testingApplication.core.сonstant;
 
 public class DialogueConstant {
     public static final String ADMIN_PASSWORD = "1111";

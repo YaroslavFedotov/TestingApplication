@@ -1,4 +1,4 @@
-package com.accenture.testingApplication.core.Constant;
+package com.accenture.testingApplication.core.сonstant;
 
 public class StructureDataBaseConstant {
     public static final String USERS_TABLE = "USERS";
